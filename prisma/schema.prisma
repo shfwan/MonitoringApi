@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Supir {
+  id          String  @id @default(uuid()) @db.VarChar(36)
+  name        String
+  alamat      String?
+  phoneNumber String
+  user        User?
+}
+
+model User {
+  id          String       @id @default(cuid()) @db.VarChar(36)
+  supirId     String       @unique
+  username    String
+  password    String?
+  role        String?      @default("User")
+  token       String?      @db.VarChar(100)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?
+  supir       Supir        @relation(fields: [supirId], references: [id])
+  userProfile userProfile?
+}
+
+model Admin {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  username  String
+  password  String
+  role      String   @default("Administrator")
+  token     String?
+  createdAt DateTime
+  Lokasi    Lokasi?
+  Waktu     Waktu?
+}
+
+model Waktu {
+  id             String   @id @default(uuid()) @db.VarChar(36)
+  authorId       String   @unique
+  jamMasuk       String?  @default("02:00")
+  jamPulang      String?  @default("17:00")
+  jamLembur      String?  @default("20:00")
+  batasTerlambat String?  @default("08:30")
+  createdAt      DateTime
+  updatedAt      DateTime @updatedAt
+  Admin          Admin    @relation(fields: [authorId], references: [id])
+}
+
+model Lokasi {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  authorId  String   @unique
+  latitude  Decimal
+  longitude Decimal
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+  Admin     Admin    @relation(fields: [authorId], references: [id])
+}
+
+model userProfile {
+  id        String      @id @default(cuid()) @db.VarChar(36)
+  userId    String      @unique
+  foto      String?
+  bio       String?
+  user      User        @relation(fields: [userId], references: [id])
+  kehadiran Kehadiran[]
+}
+
+model Kehadiran {
+  id              Int              @id @default(autoincrement())
+  userProfileId   String           @unique
+  statusHadir     Boolean?         @default(false)
+  statusIzin      Boolean?         @default(false)
+  statusSakit     Boolean?         @default(false)
+  description     String?
+  fotoKeterangan  String?
+  tanggal         String?
+  jamMasuk        String?
+  jamPulang       String?
+  lokasi          String?
+  recordKehadiran recordKehadiran?
+  userProfile     userProfile      @relation(fields: [userProfileId], references: [id])
+}
+
+model recordKehadiran {
+  id          Int       @id @default(autoincrement())
+  kehadiranId Int       @unique
+  createAt    DateTime  @default(now())
+  kehadiran   Kehadiran @relation(fields: [kehadiranId], references: [id])
+}
