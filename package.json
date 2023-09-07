@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "node  ./src/main.js",
-    "start-dev": "nodemon  ./src/main.js"
+    "start": "node  ./index.js",
+    "start-dev": "nodemon  ./index.js"
   },
   "jest": {
     "verbose": true,
