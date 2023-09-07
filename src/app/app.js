@@ -3,6 +3,7 @@ import {apiRoutes} from "../routes/api.routes.js";
 import {privateRoutes} from "../routes/private-api.routes.js";
 import {publicRoutes} from "../routes/public-api.routes.js";
 import { errorMiddleware } from '../middleware/error.middleware.js';
+import cors from 'cors'
 
 export const app = express()
 
@@ -17,5 +18,5 @@ app.use(express.json())
 app.use(apiRoutes)
 app.use(privateRoutes)
 app.use(publicRoutes)
-
+app.use(cors())
 app.use(errorMiddleware)
