@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "start": "nodemon  ./src/main.js"
+    "start": "node  ./src/main.js"
   },
   "jest": {
     "verbose": true,
