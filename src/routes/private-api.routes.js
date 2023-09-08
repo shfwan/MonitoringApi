@@ -46,7 +46,8 @@ privateRoutes.patch("/api/v2/user/logout", userController.logOut)
 /* User Profile */
 privateRoutes.patch("/api/v2/user/userProfile/data", userProfileController.update)
 privateRoutes.patch("/api/v2/user/userProfile/images/id", upload.single('foto'), userProfileController.update);
-privateRoutes.use('/images', express.static(join(__dirname, '../../assets/images')));
+privateRoutes.use('/assets/images', express.static(join(__dirname, '../../assets/images')));
+privateRoutes.use('/assets/random', express.static(join(__dirname, '../../assets/random')));
 
 /* Kehadiran */
 privateRoutes.get("/api/v2/user/kehadiran", kehadiranController.getAllKehadiran);

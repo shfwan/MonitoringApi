@@ -54,7 +54,7 @@ const register = async (request) => {
             token: uuid().toString(),
             userProfile: {
                 create: {
-                    foto: `/images${imagesRandom}`
+                    foto: `/assets${imagesRandom}`
                 }
             }
         },
