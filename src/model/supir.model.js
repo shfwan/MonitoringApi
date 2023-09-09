@@ -74,15 +74,15 @@ const create = async (request) => {
 }
 
 const update = async (request) => {
-    const totalSupirInDatabase = await prismaClient.supir.count({
-        where: {
-            id: request.id
-        }
-    })
+    // const totalSupirInDatabase = await prismaClient.supir.count({
+    //     where: {
+    //         id: request.id
+    //     }
+    // })
 
-    if (totalSupirInDatabase !== 1 ){
-        throw new ResponseError(404, "Not Found")
-    }
+    // if (totalSupirInDatabase !== 1 ){
+    //     throw new ResponseError(404, "Not Found")
+    // }
 
     return await prismaClient.supir.update({
         where: {
