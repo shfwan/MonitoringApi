@@ -100,47 +100,55 @@ const update = async (request) => {
 
 const deleteModel = async (request) => {
     const supir = await getById(request)
-    const user = await prismaClient.user.findFirst({
-        where: {
-            supirId: supir.id
-        },
-        select: true
-    })
-    const userProfile = await prismaClient.userProfile.findFirst({
-        where: {
-            userId: user.id
-        },
-        select: true
-    })
-    const kehadiran = await prismaClient.kehadiran.findFirst({
-        where: {
-            userProfileId: userProfile.id
-        }, select: true
-    })
-
-    await prismaClient.kehadiran.deleteMany({
-        where: {
-            id: kehadiran.id
-        }
-    })
-
-    await prismaClient.userProfile.delete({
-        where: {
-            id: userProfile.id
-        }
-    })
+    if (user != null) {
+        const user = await prismaClient.user.findFirst({
+            where: {
+                supirId: supir.id
+            },
+            select: true
+        })
+        const userProfile = await prismaClient.userProfile.findFirst({
+            where: {
+                userId: user.id
+            },
+            select: true
+        })
+        const kehadiran = await prismaClient.kehadiran.findFirst({
+            where: {
+                userProfileId: userProfile.id
+            }, select: true
+        })
     
-    await prismaClient.user.delete({
-        where: {
-            id: user.id
-        }
-    })
+        await prismaClient.kehadiran.deleteMany({
+            where: {
+                id: kehadiran.id
+            }
+        })
     
-    return await prismaClient.supir.delete({
-        where: {
-            id: supir.id
-        }
-    })
+        await prismaClient.userProfile.delete({
+            where: {
+                id: userProfile.id
+            }
+        })
+        
+        await prismaClient.user.delete({
+            where: {
+                id: user.id
+            }
+        })
+        
+        return await prismaClient.supir.delete({
+            where: {
+                id: supir.id
+            }
+        })
+    } else {
+        return await prismaClient.supir.delete({
+            where: {
+                id: supir.id
+            }
+        })
+    }
 }
 
 export { 
