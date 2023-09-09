@@ -42,10 +42,7 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const id = req.params.id
         const request = req.body
-        request.id = id
-
         const response = await updateSupir(request)
         res.status(200).json({
             data: response
