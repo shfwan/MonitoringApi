@@ -100,7 +100,7 @@ const update = async (request) => {
 
 const deleteModel = async (request) => {
     const supir = await getById(request)
-    if (user != null) {
+    if (supir.user !== null) {
         const user = await prismaClient.user.findFirst({
             where: {
                 supirId: supir.id
