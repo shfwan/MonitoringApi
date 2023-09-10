@@ -57,12 +57,33 @@ model Waktu {
 model Lokasi {
   id        String   @id @default(uuid()) @db.VarChar(36)
   authorId  String   @unique
-  latitude  Decimal
-  longitude Decimal
+  latitude  String
+  longitude String
   createdAt DateTime
   updatedAt DateTime @updatedAt
   Admin     Admin    @relation(fields: [authorId], references: [id])
 }
+
+model Kendaraan {
+  id String @id @default(uuid()) @db.VarChar(36)
+  nama String
+  foto String?
+  platNomor String
+  jenis String?
+  merek String?
+  warna String?
+  lokasiKendaraan lokasiKendaraan?
+}
+
+model lokasiKendaraan {
+  id String @id @default(uuid()) @db.VarChar(36)
+  kendaraanId String @unique
+  latitude  String
+  longitude String
+  Kendaraan Kendaraan @relation(fields: [kendaraanId], references: [id])
+}
+
+
 
 model userProfile {
   id        String      @id @default(cuid()) @db.VarChar(36)
@@ -74,7 +95,7 @@ model userProfile {
 }
 
 model Kehadiran {
-  id              Int              @id @default(autoincrement())
+  id              String              @id @default(uuid()) @db.VarChar(36)
   userProfileId   String           @unique
   statusHadir     Boolean?         @default(false)
   statusIzin      Boolean?         @default(false)
@@ -84,14 +105,22 @@ model Kehadiran {
   tanggal         String?
   jamMasuk        String?
   jamPulang       String?
-  lokasi          String?
+  lokasiKehadiran lokasiKehadiran?
   recordKehadiran recordKehadiran?
   userProfile     userProfile      @relation(fields: [userProfileId], references: [id])
 }
 
+model lokasiKehadiran {
+  id String @id @default(uuid()) @db.VarChar(36)
+  kehadiranId String @unique
+  latitude  String
+  longitude String
+  Kehadiran Kehadiran @relation(fields: [kehadiranId], references: [id])
+}
+
 model recordKehadiran {
-  id          Int       @id @default(autoincrement())
-  kehadiranId Int       @unique
+  id          String       @id @default(uuid()) @db.VarChar(36)
+  kehadiranId String       @unique
   createAt    DateTime  @default(now())
   kehadiran   Kehadiran @relation(fields: [kehadiranId], references: [id])
 }

@@ -4,7 +4,11 @@ import { ResponseError } from "../error/response.error.js"
 const get = async () => {
     return await prismaClient.userProfile.findMany({
         include: {
-            user: true
+            user: {
+                include: {
+                    supir: true
+                }
+            }
         }
     })
 }
