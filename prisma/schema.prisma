@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url  	= env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Supir {
@@ -65,37 +62,35 @@ model Lokasi {
 }
 
 model Kendaraan {
-  id String @id @default(uuid()) @db.VarChar(36)
-  nama String
-  foto String?
-  platNomor String
-  jenis String?
-  merek String?
-  warna String?
+  id              String           @id @default(uuid()) @db.VarChar(36)
+  nama            String
+  foto            String?
+  platNomor       String
+  jenis           String?
+  merek           String?
+  warna           String?
   lokasiKendaraan lokasiKendaraan?
 }
 
 model lokasiKendaraan {
-  id String @id @default(uuid()) @db.VarChar(36)
-  kendaraanId String @unique
-  latitude  String
-  longitude String
-  Kendaraan Kendaraan @relation(fields: [kendaraanId], references: [id])
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  kendaraanId String    @unique
+  latitude    String
+  longitude   String
+  Kendaraan   Kendaraan @relation(fields: [kendaraanId], references: [id])
 }
 
-
-
 model userProfile {
-  id        String      @id @default(cuid()) @db.VarChar(36)
-  userId    String      @unique
+  id        String     @id @default(cuid()) @db.VarChar(36)
+  userId    String     @unique
   foto      String?
   bio       String?
-  user      User        @relation(fields: [userId], references: [id])
-  kehadiran Kehadiran[]
+  kehadiran Kehadiran?
+  user      User       @relation(fields: [userId], references: [id])
 }
 
 model Kehadiran {
-  id              String              @id @default(uuid()) @db.VarChar(36)
+  id              String           @id @default(uuid()) @db.VarChar(36)
   userProfileId   String           @unique
   statusHadir     Boolean?         @default(false)
   statusIzin      Boolean?         @default(false)
@@ -105,22 +100,22 @@ model Kehadiran {
   tanggal         String?
   jamMasuk        String?
   jamPulang       String?
+  userProfile     userProfile      @relation(fields: [userProfileId], references: [id])
   lokasiKehadiran lokasiKehadiran?
   recordKehadiran recordKehadiran?
-  userProfile     userProfile      @relation(fields: [userProfileId], references: [id])
 }
 
 model lokasiKehadiran {
-  id String @id @default(uuid()) @db.VarChar(36)
-  kehadiranId String @unique
-  latitude  String
-  longitude String
-  Kehadiran Kehadiran @relation(fields: [kehadiranId], references: [id])
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  kehadiranId String    @unique
+  latitude    String
+  longitude   String
+  Kehadiran   Kehadiran @relation(fields: [kehadiranId], references: [id])
 }
 
 model recordKehadiran {
-  id          String       @id @default(uuid()) @db.VarChar(36)
-  kehadiranId String       @unique
+  id          String    @id @default(uuid()) @db.VarChar(36)
+  kehadiranId String    @unique
   createAt    DateTime  @default(now())
   kehadiran   Kehadiran @relation(fields: [kehadiranId], references: [id])
 }

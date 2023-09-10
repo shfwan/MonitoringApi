@@ -52,12 +52,35 @@ CREATE TABLE "Waktu" (
 CREATE TABLE "Lokasi" (
     "id" VARCHAR(36) NOT NULL,
     "authorId" TEXT NOT NULL,
-    "latitude" DECIMAL(65,30) NOT NULL,
-    "longitude" DECIMAL(65,30) NOT NULL,
+    "latitude" TEXT NOT NULL,
+    "longitude" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Lokasi_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Kendaraan" (
+    "id" VARCHAR(36) NOT NULL,
+    "nama" TEXT NOT NULL,
+    "foto" TEXT,
+    "platNomor" TEXT NOT NULL,
+    "jenis" TEXT,
+    "merek" TEXT,
+    "warna" TEXT,
+
+    CONSTRAINT "Kendaraan_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "lokasiKendaraan" (
+    "id" VARCHAR(36) NOT NULL,
+    "kendaraanId" TEXT NOT NULL,
+    "latitude" TEXT NOT NULL,
+    "longitude" TEXT NOT NULL,
+
+    CONSTRAINT "lokasiKendaraan_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -72,7 +95,7 @@ CREATE TABLE "userProfile" (
 
 -- CreateTable
 CREATE TABLE "Kehadiran" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "userProfileId" TEXT NOT NULL,
     "statusHadir" BOOLEAN DEFAULT false,
     "statusIzin" BOOLEAN DEFAULT false,
@@ -82,15 +105,24 @@ CREATE TABLE "Kehadiran" (
     "tanggal" TEXT,
     "jamMasuk" TEXT,
     "jamPulang" TEXT,
-    "lokasi" TEXT,
 
     CONSTRAINT "Kehadiran_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
+CREATE TABLE "lokasiKehadiran" (
+    "id" VARCHAR(36) NOT NULL,
+    "kehadiranId" TEXT NOT NULL,
+    "latitude" TEXT NOT NULL,
+    "longitude" TEXT NOT NULL,
+
+    CONSTRAINT "lokasiKehadiran_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "recordKehadiran" (
-    "id" SERIAL NOT NULL,
-    "kehadiranId" INTEGER NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
+    "kehadiranId" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "recordKehadiran_pkey" PRIMARY KEY ("id")
@@ -106,10 +138,16 @@ CREATE UNIQUE INDEX "Waktu_authorId_key" ON "Waktu"("authorId");
 CREATE UNIQUE INDEX "Lokasi_authorId_key" ON "Lokasi"("authorId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "lokasiKendaraan_kendaraanId_key" ON "lokasiKendaraan"("kendaraanId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "userProfile_userId_key" ON "userProfile"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Kehadiran_userProfileId_key" ON "Kehadiran"("userProfileId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "lokasiKehadiran_kehadiranId_key" ON "lokasiKehadiran"("kehadiranId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "recordKehadiran_kehadiranId_key" ON "recordKehadiran"("kehadiranId");
@@ -124,10 +162,16 @@ ALTER TABLE "Waktu" ADD CONSTRAINT "Waktu_authorId_fkey" FOREIGN KEY ("authorId"
 ALTER TABLE "Lokasi" ADD CONSTRAINT "Lokasi_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Admin"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "lokasiKendaraan" ADD CONSTRAINT "lokasiKendaraan_kendaraanId_fkey" FOREIGN KEY ("kendaraanId") REFERENCES "Kendaraan"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "userProfile" ADD CONSTRAINT "userProfile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Kehadiran" ADD CONSTRAINT "Kehadiran_userProfileId_fkey" FOREIGN KEY ("userProfileId") REFERENCES "userProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "lokasiKehadiran" ADD CONSTRAINT "lokasiKehadiran_kehadiranId_fkey" FOREIGN KEY ("kehadiranId") REFERENCES "Kehadiran"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "recordKehadiran" ADD CONSTRAINT "recordKehadiran_kehadiranId_fkey" FOREIGN KEY ("kehadiranId") REFERENCES "Kehadiran"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
