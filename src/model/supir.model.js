@@ -17,15 +17,15 @@ const get = async () => {
 }
 
 const getById = async (request) => {    
-    // const checkSupirInDatabase = await prismaClient.supir.count({
-    //     where: {
-    //         id: request.id
-    //     }
-    // })
+    const checkSupirInDatabase = await prismaClient.supir.count({
+        where: {
+            id: request.id
+        }
+    })
     
-    // if (checkSupirInDatabase !== 1) {
-    //     throw new ResponseError(404, "Supir Not Found")
-    // }
+    if (checkSupirInDatabase !== 1) {
+        throw new ResponseError(404, "Supir Not Found")
+    }
 
     return await prismaClient.supir.findFirst({
         where: {
