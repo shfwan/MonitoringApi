@@ -1,16 +1,15 @@
 import {
-    getSupir,
-    getSupirById,
-    createSupir,
-    updateSupir,
-    deleteSupir
-} from "../service/supir.service.js"
+    getLokasiKendaraan,
+    getLokasiKendaraanById,
+    createLokasiKendaraan,
+    updateLokasiKendaraan,
+} from "../service/lokasiKendaraan.service.js"
 
 
 
 const get = async (req, res, next) => {
     try {
-        const response = await getSupir()
+        const response = await getLokasiKendaraan()
         res.status(200).json(response)
     } catch (error) {
         next(error)
@@ -19,7 +18,7 @@ const get = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
     try {
-        const response = await getSupirById(req.body)
+        const response = await getLokasiKendaraanById(req.body)
         res.status(200).json(response)
     } catch (error) {
         next(error)
@@ -29,7 +28,7 @@ const getById = async (req, res, next) => {
 const create = async (req, res, next) => {
     try {
         const request = req.body
-        const response = await createSupir(request)
+        const response = await createLokasiKendaraan(request)
 
         res.status(201).json({
             data: response
@@ -42,18 +41,7 @@ const create = async (req, res, next) => {
 const update = async (req, res, next) => {
     try {
         const request = req.body
-        const response = await updateSupir(request)
-        res.status(200).json({
-            data: response
-        })
-    } catch (error) {
-        next(error)
-    }
-}
-
-const remove = async (req, res, next) => {
-    try {
-        const response = await deleteSupir(req.body)
+        const response = await updateLokasiKendaraan(request)
         res.status(200).json({
             data: response
         })
@@ -67,5 +55,4 @@ export default {
     getById,
     create,
     update,
-    remove
 }

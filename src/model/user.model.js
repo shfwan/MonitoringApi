@@ -3,8 +3,8 @@ import { ResponseError } from "../error/response.error.js"
 import { checkLoginPhoneNumber, registerValidate, loginValidate, updatePasswordValidate } from "../validation/user.validation.js"
 import { validate } from "../validation/validation.js"
 import bcrypt from "bcrypt"
-import imagesRandom from "../../assets/images.js"
 import {v4 as uuid} from 'uuid'
+import imagesRandom from "../../assets/images.js"
 import { logger } from "../app/logging.js"
 
 const get = async () => {
@@ -184,6 +184,7 @@ const login = async (request) => {
         },
         select: {
             id: true,
+            username: true,
             token: true
         }
     })

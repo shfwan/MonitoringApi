@@ -1,4 +1,4 @@
-import prismaClient from "../app/database"
+import prismaClient from "../app/database.js"
 import bcrypt from 'bcrypt'
 import { v4 as uuid } from 'uuid'
 

@@ -6,7 +6,7 @@ import {
     izin,
 } from "../model/kehadiran.model.js"
 
-const getApiTime = async () => {
+export const getApiTime = async () => {
     const apiUrl = "http://worldtimeapi.org/api/timezone/Asia/Jayapura"
 
     const response = await (fetch(apiUrl))

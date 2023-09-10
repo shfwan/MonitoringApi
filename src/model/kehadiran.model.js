@@ -142,13 +142,25 @@ const hadir = async (request, datetime) => {
     })
 
     return await prismaClient.kehadiran.create({
-        data: request,
+        data: {
+            jamMasuk: request.jamMasuk,
+            jamPulang: request.jamPulang,
+            description: request.description,
+            tanggal: request.tanggal,
+            statusHadir: true,
+            lokasiKehadiran: {
+                create: {
+                    latitude: request.latitude,
+                    longitude: request.longitude,
+                }
+            },
+        },
         select: {
             id: true,
             statusHadir: true,
             jamMasuk: true,
             tanggal: true,
-            lokasi: true,
+            lokasiKehadiran: true,
         }
     })
 }
@@ -170,13 +182,23 @@ const sakit = async (request, datetime) => {
     })
 
     return await prismaClient.kehadiran.create({
-        data: request,
+        data: {
+            description: request.description,
+            tanggal: request.tanggal,
+            statusSakit: true,
+            lokasiKehadiran: {
+                create: {
+                    latitude: request.latitude,
+                    longitude: request.longitude,
+                }
+            },
+        },
         select: {
             id: true,
-            statusSakit: true,
-            description: true,
+            statusHadir: true,
+            jamMasuk: true,
             tanggal: true,
-            lokasi: true
+            lokasiKehadiran: true,
         }
     })
 }
@@ -196,13 +218,23 @@ const izin = async (request, datetime) => {
     })
 
     return await prismaClient.kehadiran.create({
-        data: request,
+        data: {
+            description: request.description,
+            tanggal: request.tanggal,
+            statusIzin: true,
+            lokasiKehadiran: {
+                create: {
+                    latitude: request.latitude,
+                    longitude: request.longitude,
+                }
+            },
+        },
         select: {
             id: true,
-            statusIzin: true,
-            description: true,
+            statusHadir: true,
+            jamMasuk: true,
             tanggal: true,
-            lokasi: true
+            lokasiKehadiran: true,
         }
     })
 }

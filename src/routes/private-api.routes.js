@@ -5,6 +5,12 @@ import supirController from "../controller/supir.controller.js";
 import userController from "../controller/user.controller.js";
 import userProfileController from "../controller/userProfile.controller.js";
 import kehadiranController from "../controller/kehadiran.controller.js";
+import lokasiController from "../controller/lokasi.controller.js"
+import lokasiKehadiranController from "../controller/lokasiKehadiran.controller.js"
+import lokasiKendaraanController from "../controller/lokasiKendaraan.controller.js"
+import adminController from "../controller/admin.controller.js"
+import waktuController from "../controller/waktu.controller.js"
+import kendaraanController from "../controller/kendaraan.controller.js"
 import path from 'path'
 import multer from "multer";
 
@@ -55,5 +61,12 @@ privateRoutes.patch("/api/v2/user/hadir", kehadiranController.absenHadir);
 privateRoutes.patch("/api/v2/user/pulang", kehadiranController.absenPulang);
 privateRoutes.patch("/api/v2/user/sakit", kehadiranController.absenSakit);
 privateRoutes.patch("/api/v2/user/izin", kehadiranController.absenSakit);
+
+privateRoutes.get("api/v2/admin/lokasi", lokasiController.get)
+privateRoutes.get("api/v2/admin/waktu", waktuController.get)
+privateRoutes.get("api/v2/kehadiran/lokasi", lokasiKehadiranController.get)
+privateRoutes.get("api/v2/kendaraan/lokasi", lokasiKehadiranController.get)
+privateRoutes.get("api/v2/admin", adminController.get)
+privateRoutes.get("api/v2/kendaraan", kendaraanController.get)
 
 export { privateRoutes };

@@ -50,10 +50,20 @@ const create = async (request) => {
         }
     })
 
+    const totalSupirPhoneNumber = await prismaClient.supir.count({
+        where: {
+            phoneNumber: request.phoneNumber
+        }
+    })
+
     const data = {}
     
     if (totalSupirInDatabase === 1 ) {
         throw new ResponseError(409, "Conflict")
+    }
+
+    if (totalSupirPhoneNumber === 1 ) {
+        throw new ResponseError(409, "Nomor hp sudah terdaftar")
     }
 
     if (supir.name) {
