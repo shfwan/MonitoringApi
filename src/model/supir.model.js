@@ -74,15 +74,15 @@ const create = async (request) => {
 }
 
 const update = async (request) => {
-    // const totalSupirInDatabase = await prismaClient.supir.count({
-    //     where: {
-    //         id: request.id
-    //     }
-    // })
+    const totalSupirInDatabase = await prismaClient.supir.count({
+        where: {
+            id: request.id
+        }
+    })
 
-    // if (totalSupirInDatabase !== 1 ){
-    //     throw new ResponseError(404, "Not Found")
-    // }
+    if (totalSupirInDatabase !== 1 ){
+        throw new ResponseError(404, "Not Found")
+    }
 
     return await prismaClient.supir.update({
         where: {
@@ -100,7 +100,13 @@ const update = async (request) => {
 
 const deleteModel = async (request) => {
     const supir = await getById(request)
-    if (supir.user !== null) {
+    if (supir.user === null) {
+        return await prismaClient.supir.delete({
+            where: {
+                id: supir.id
+            }
+        })
+    } else {
         const user = await prismaClient.user.findFirst({
             where: {
                 supirId: supir.id
@@ -137,12 +143,6 @@ const deleteModel = async (request) => {
             }
         })
         
-        return await prismaClient.supir.delete({
-            where: {
-                id: supir.id
-            }
-        })
-    } else {
         return await prismaClient.supir.delete({
             where: {
                 id: supir.id
